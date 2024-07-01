@@ -7,32 +7,20 @@ downloads_folder = os.path.join(os.path.expanduser("~"), "Downloads")
 # Define the file path
 file_path = os.path.join(downloads_folder, 'Sample.xlsx')
 
-# Step 1: Create the Excel file
+# Check if the file exists
+if not os.path.exists(file_path):
+    print(f"File not found: {file_path}")
+else:
+    # Load the Excel file
+    df = pd.read_excel(file_path, sheet_name='Sheet1')  # Adjust sheet_name as necessary
 
-# Sample data
-data = {
-    'Name': ['Alice', 'Bob', 'Charlie'],
-    'Age': [25, 30, 35],
-    'City': ['New York', 'Los Angeles', 'Chicago']
-}
-
-# Create a DataFrame
-df = pd.DataFrame(data)
-
-# Write the DataFrame to an Excel file
-df.to_excel(file_path, index=False, sheet_name='Sheet1')
-
-# Step 2: Read and iterate through the Excel file
-
-# Load the Excel file
-sheet_name = 'Sheet1'
-
-# Read the Excel file
-df = pd.read_excel(file_path, sheet_name=sheet_name)
-
-# Iterate through the table
-for index, row in df.iterrows():
-    # Access data in each row
-    print(f"Row {index}:")
-    for col_name in df.columns:
-        print(f"  {col_name}: {row[col_name]}")
+    # Access columns directly and iterate through index
+    for idx in df.index:
+        # Access data using column names
+        name = df.at[idx, 'Name']
+        age = df.at[idx, 'Age']
+        city = df.at[idx, 'City']
+        
+        # Print row information
+        print(f"Row {idx}:")
+        print(f"  Name: {name}, Age: {age}, City: {city}")
